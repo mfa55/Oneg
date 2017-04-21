@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1014748364572",
+    "firebase_url": "https://oneg-bc189.firebaseio.com",
+    "project_id": "oneg-bc189",
+    "storage_bucket": "oneg-bc189.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014748364572:android:a5d07fd49259aaaa",
+        "android_client_info": {
+          "package_name": "jram_mack.oneg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014748364572-meea699ms2lnm3ksak5f9a993rflr4qu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jram_mack.oneg",
+            "certificate_hash": "0a4fa21226df136ff9f688917be090d68570c82b"
+          }
+        },
+        {
+          "client_id": "1014748364572-6n374kfimlv64ar46i86bsqbhm4lr0aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHnmxu5bo9J7RxdRQYXSHiQtxuhwMviiI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014748364572-6n374kfimlv64ar46i86bsqbhm4lr0aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
