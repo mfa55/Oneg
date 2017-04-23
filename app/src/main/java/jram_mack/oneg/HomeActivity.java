@@ -1,14 +1,20 @@
 package jram_mack.oneg;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     public static DatabaseReference mDatabase;
     public static RecyclerView recyclerView;
     public static ArrayList<RecyclerItem> listOfHospitals;
-    public static ArrayList<RequestFunction> listOfRequestsHome;
+    public static ArrayList<Request> listOfRequestsHome;
     private Button request;
     private Button myReq;
     public static RecyclerView.Adapter adapter;
@@ -42,6 +48,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.hide();
+
+
+
+
         String title = "Requests "+ RegisterActivity.user.getBloodType();
         getSupportActionBar().setTitle(title);
         setContentView(R.layout.activity_home);
@@ -112,31 +122,34 @@ public class HomeActivity extends AppCompatActivity {
         mDatabase.addChildEventListener(new ChildEventListener() {
 
             String value;
-            RequestFunction r;
+            Request r;
             RecyclerItem re;
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot.child("status").getValue().toString().equals("true")) {
 
-                if(!dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())){
-                    r = new RequestFunction(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
-                            dataSnapshot.child("hospital").getValue().toString(),
-                            dataSnapshot.child("city").getValue().toString(),
-                            Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                            dataSnapshot.child("phoneNumber").getValue().toString(),
-                            dataSnapshot.child("key").getValue().toString()
-                    );
 
-                    if(dataSnapshot.child("status").getValue().toString().equals("true")){
-                        value = dataSnapshot.child("hospital").getValue().toString();
-                        re = new RecyclerItem(value,r.toString()); //hone u add the values
-                        listOfHospitals.add(re);
-                        listOfRequestsHome.add(r);
-                    } else {
-                        listOfRequestsMyRequests.add(r);
+                    if (!dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())) {
+                        r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                                dataSnapshot.child("hospital").getValue().toString(),
+                                dataSnapshot.child("city").getValue().toString(),
+                                Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
+                                dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
+                                dataSnapshot.child("key").getValue().toString()
+                        );
+
+                        if (dataSnapshot.child("status").getValue().toString().equals("true")) {
+                            value = dataSnapshot.child("hospital").getValue().toString();
+                            re = new RecyclerItem(value, r.toString()); //hone u add the values
+                            listOfHospitals.add(re);
+                            listOfRequestsHome.add(r);
+                        } else {
+                            listOfRequestsMyRequests.add(r);
+                        }
+                        adapter.notifyDataSetChanged();
+
                     }
-                    adapter.notifyDataSetChanged();
-
                 }
 
 
@@ -147,11 +160,11 @@ public class HomeActivity extends AppCompatActivity {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 value = dataSnapshot.getValue().toString();
                 re = new RecyclerItem(value,"");
-                r = new RequestFunction(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
                         dataSnapshot.child("hospital").getValue().toString(),
                         dataSnapshot.child("city").getValue().toString(),
                         Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                        dataSnapshot.child("phoneNumber").getValue().toString(),
+                        dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
                         dataSnapshot.child("key").getValue().toString()
                 );
 
@@ -204,6 +217,39 @@ public class HomeActivity extends AppCompatActivity {
         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainActivity);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.mnu_item_signout:
+                Intent j = new Intent(HomeActivity.this,MainActivity.class);
+                RegisterActivity.user = null;
+                //SharedPreferences settings = getSharedPreferences("MyPrefs", 0);
+                // SharedPreferences.Editor editor = settings.edit();
+                // editor.clear();
+                // editor.commit();
+
+                startActivity(j);
+                break;
+            case R.id.mnu_item_Edit:
+                // Intent i = new Intent(HomeActivity.this,EditProfileActivity.class);
+                //startActivity(i);
+
+
+                break;
+
+
+        }
+        return true;
+
     }
 
 

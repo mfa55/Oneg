@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Mario_Abou_Naaman on 2/16/17.
  */
 
-public class RequestFunction {
+public class Request {
 
     protected String bloodType;
     protected String hospital;
@@ -116,10 +116,13 @@ public class RequestFunction {
 
     public String getPhoneNumberOnListView(){
         String temp = this.phoneNumberOnListView;
-        if((temp.charAt(0) + "").equals("0")){
-            temp = "+961" + temp.substring(1,temp.length());
-        } else {
-            temp = "+961" + temp;
+        if(!(temp.charAt(0) + "" ).equals("+")){
+            if ((temp.charAt(0) + "").equals("0")) {
+                temp = "+961" + temp.substring(1, temp.length());
+            } else {
+                temp = "+961" + temp;
+            }
+
         }
         return temp;
     }
@@ -130,15 +133,15 @@ public class RequestFunction {
 
     @Override
     public boolean equals(Object o){
-        RequestFunction temp = (RequestFunction) o;
+        Request temp = (Request) o;
         if(temp.getPhoneNumber() == this.phoneNumber){
             return true;
         }
-            return false;
+        return false;
 
     }
 
-    public RequestFunction(String name, String bloodType, String hospital, String city, int units, String phoneNumber, String key){
+    public Request(String name, String bloodType, String hospital, String city, int units, String phoneNumber, String key){
         this.bloodType = bloodType;
         this.hospital = hospital;
         this.city = city;
@@ -150,7 +153,7 @@ public class RequestFunction {
         this.key = key;
         SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
         this.currentDateTime = date.format(new Date());
-        this.phoneNumberOnListView = phoneNumber;
+        setPhoneNumberOnListView(phoneNumber);
 
     }
 

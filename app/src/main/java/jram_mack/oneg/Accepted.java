@@ -17,7 +17,7 @@ public class Accepted extends AppCompatActivity {
     private RecyclerView.Adapter adapter2;
     public static List<RecyclerItem> acceptedRequestsListItem;
     private RecyclerView.LayoutManager mLayoutManager;
-    public static ArrayList<RequestFunction> listOfRequestsMyRequests;
+    public static ArrayList<Request> listOfRequestsMyRequests;
     private Button AcceptedHome;
     private Button AcceptedRequest;
     private Button AcceptedMyRequests;

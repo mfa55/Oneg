@@ -1,6 +1,5 @@
 package jram_mack.oneg;
 
-//Author Andreas Maalouf
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +28,7 @@ public class RequestActivity extends AppCompatActivity {
     protected DatabaseReference mDatabase;
     private List<String> arrayBloodtype;
     private List<String> arrayCity;
-    public static EditText phoneNumber;
+    private EditText phoneNumber;
     private Button next;
     private BufferedReader bufferCity;
     private BufferedReader bufferHospital;
@@ -109,7 +108,8 @@ public class RequestActivity extends AppCompatActivity {
 
         //Spinner 3
 
-        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
+        phoneNumber = (EditText) findViewById(R.id.phoneNumberRequest);
+
 
         next = (Button) findViewById(R.id.requestButton3);
 
@@ -129,7 +129,12 @@ public class RequestActivity extends AppCompatActivity {
                 } else {
 
                     Intent i = new Intent(RequestActivity.this, Request2Activity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("phoneNumber", phoneNumber.getText().toString());
+                    i.putExtras(bundle);
+
                     startActivity(i);
+
                 }
 
 

@@ -12,14 +12,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import static jram_mack.oneg.MyRequestsActivity.listOfMyRequests;
-import static jram_mack.oneg.HomeActivity.mDatabase;
 
 public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder>  {
     private List<RecyclerItem> listItems;
     private Context mContext;
+    protected DatabaseReference mDatabase;
+
     public SampleAdpater(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
         this.mContext = mContext;
@@ -43,16 +47,33 @@ public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder
         holder.txtRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestFunction r = listOfMyRequests.get(position);
+
+                mDatabase = FirebaseDatabase.getInstance().getReference("Requests" + "/"
+                        + RegisterActivity.user.getCity() + "/" + RegisterActivity.user.getBloodType()
+                );
+                Request r = listOfMyRequests.get(position);
                 listItems.remove(position);
 
                 try{
                     listOfMyRequests.get(position).reverseStatus();
+
                     mDatabase.child(r.getKey()).child("status").setValue(r.getStatus());
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 mDatabase.child(r.getKey()).child("status").setValue(r.getStatus());
+
+                //NEW
+
+                mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllRequests");
+
+                try{
+                    mDatabase.child(r.getKey()).child("status").setValue(r.getStatus());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                mDatabase.child(r.getKey()).child("status").setValue(r.getStatus());
+//
 
                 listOfMyRequests.remove(position);
                 notifyDataSetChanged();

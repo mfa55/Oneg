@@ -110,5 +110,9 @@ public class User {
         return key;
     }
 
+    @Override
+    public String toString(){
+        return getName() + " " + getCity() + " " + getPhoneNumber() + " " + getBloodType();
+    }
 
 }

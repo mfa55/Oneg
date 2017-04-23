@@ -2,10 +2,12 @@ package jram_mack.oneg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
 
-   // private EditText password;
+    // private EditText password;
     private EditText phoneNumber;
     private TextView Register;
     private Button logIn;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     public static Intent i;
     private View Rectangle;
 
+    static SharedPreferences sharedpreferences;
+    protected final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,34 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         setContentView(R.layout.activity_main);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("ListOfAllUsers");
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        if(sharedpreferences.getString("logged","").equals("true")){
+
+            Intent redirect = new Intent(MainActivity.this, HomeActivity.class);
+
+
+            RegisterActivity.user = new User(
+                    sharedpreferences.getString("name", ""),
+                    sharedpreferences.getString("city", ""),
+                    sharedpreferences.getString("phoneNumber", ""),
+                    sharedpreferences.getString("gender", ""),
+                    sharedpreferences.getString("bloodType", "")
+            );
+
+
+            MainActivity.i = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(MainActivity.i);
+
+
+            startActivity(redirect);
+        }
+
+
         Rectangle = (View) findViewById(R.id.RectangleView);  //white rectangle
         Drawable rect = Rectangle.getBackground();          // same
         rect.setAlpha(220);                                 //rectangle opacity
@@ -55,41 +87,43 @@ public class MainActivity extends AppCompatActivity {
 
         phoneNumber = (EditText) findViewById(R.id.phoneNumberSignIn);
 
-       // password = (EditText) findViewById(R.id.passwordSignIn);
+        // password = (EditText) findViewById(R.id.passwordSignIn);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("ListOfAllUsers");
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                editor.putString("phoneNumber", phoneNumber.getText().toString());
+                editor.commit();
+
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
                         if(phoneNumber.getText().toString().isEmpty()){
                             Toast.makeText(MainActivity.this, "ENTER A PHONE NUMBER", Toast.LENGTH_SHORT).show();
                         }
                         else if (!dataSnapshot.hasChild(phoneNumber.getText().toString())) {
                             Toast.makeText(MainActivity.this, "ACCOUNT DOESN'T EXIST", Toast.LENGTH_SHORT).show();
                         } else {
+                            RegisterActivity.user = new User(
+                                    dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "name").getValue().toString(),
+                                    dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "city").getValue().toString(),
+                                    dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "phoneNumber").getValue().toString(),
+                                    dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "gender").getValue().toString(),
+                                    dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "bloodType").getValue().toString()
+                                    // dataSnapshot.child(reverseString(phoneNumber.getText().toString())+ "/" + "password").getValue().toString()
+                            );
 
+                            editor.putString("logged", "true");
 
-                                RegisterActivity.user = new User(
-                                        dataSnapshot.child(phoneNumber.getText().toString()+ "/" + "name").getValue().toString(),
-                                        dataSnapshot.child(phoneNumber.getText().toString()+ "/" + "city").getValue().toString(),
-                                        dataSnapshot.child(phoneNumber.getText().toString()+ "/" + "phoneNumber").getValue().toString(),
-                                        dataSnapshot.child(phoneNumber.getText().toString()+ "/" + "gender").getValue().toString(),
-                                        dataSnapshot.child(phoneNumber.getText().toString()+ "/" + "bloodType").getValue().toString()
-                                       // dataSnapshot.child(reverseString(phoneNumber.getText().toString())+ "/" + "password").getValue().toString()
-                                );
+                            editor.commit();
 
-                                MainActivity.i = new Intent(MainActivity.this, HomeActivity.class);
-                                startActivity(MainActivity.i);
-
-
-
-
+                            MainActivity.i = new Intent(MainActivity.this, HomeActivity.class);
+                            startActivity(MainActivity.i);
                         }
+
                     }
 
                     @Override

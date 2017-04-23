@@ -2,7 +2,6 @@ package jram_mack.oneg;
 
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,11 +30,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import static jram_mack.oneg.MyRequestsActivity.listOfMyRequests;
+import static jram_mack.oneg.MyRequestsActivity.listItems2;
 
 
 public class Request2Activity extends AppCompatActivity {
 
-    private RequestFunction request;
+    private Request request;
     private NumberPicker numberOfUnits;
     private Button confirm;
     private List<String> arrayHospital;
@@ -47,14 +47,18 @@ public class Request2Activity extends AppCompatActivity {
     public String blood;
     public String cityLocation;
     public String hospital;
+    private String phoneOnRequest2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.hide();
-        getSupportActionBar().setTitle("RequestFunction Blood");
+        getSupportActionBar().setTitle("Request Blood");
         setContentView(R.layout.activity_request2);
+
+        Bundle bundle = getIntent().getExtras();
+        phoneOnRequest2 = bundle.getString("phoneNumber");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -105,9 +109,10 @@ public class Request2Activity extends AppCompatActivity {
                     Toast.makeText(Request2Activity.this, "FILL ALL THE REQUIRED INFORMATION", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    request = new RequestFunction(RequestActivity.name.getText().toString(), RequestActivity.bloodTypeSpinner.getSelectedItem().toString(),
+                    request = new Request(RequestActivity.name.getText().toString(), RequestActivity.bloodTypeSpinner.getSelectedItem().toString(),
                             hospitalSpinner.getSelectedItem().toString(), RequestActivity.citySpinner.getSelectedItem().toString(),
-                            numberOfUnits.getValue(), RequestActivity.phoneNumber.getText().toString(), mDatabase.push().getKey());
+                            numberOfUnits.getValue(), phoneOnRequest2, mDatabase.push().getKey());
+
 
                     request.setKey(mDatabase.push().getKey());
 
@@ -128,6 +133,7 @@ public class Request2Activity extends AppCompatActivity {
                     hospital = hospitalSpinner.getSelectedItem().toString();
 
                     String myTopic = cityLocation + blood;
+                    String userTopic = RegisterActivity.user.getCity() + RegisterActivity.user.getBloodType();
 /////
 
 
@@ -137,18 +143,30 @@ public class Request2Activity extends AppCompatActivity {
                             + request.getKey()
                     ).setValue(request);
 
+                    mDatabase.child("ListOfAllRequests" + "/" + request.getKey()).setValue(request);
+
+                    RecyclerItem re = new RecyclerItem(hospital,request.toString());
                     listOfMyRequests.add(request);
+
 
 
                     //
                     //FirebaseMessaging.getInstance().unsubscribeFromTopic(myTopic);
-                    sendNotification();
-                   // FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                    if(userTopic.equals(myTopic)){
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(myTopic);
+                        sendNotification();
+                        FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                    } else {
+                        sendNotification();
+                    }
+
+                    // FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
                     //
 
 
                     Intent i = new Intent(Request2Activity.this, HomeActivity.class);
                     Toast.makeText(Request2Activity.this, "REQUEST SUBMITTED", Toast.LENGTH_LONG).show();
+
                     startActivity(i);
                 }
 
@@ -184,7 +202,7 @@ public class Request2Activity extends AppCompatActivity {
                     notif.put("body", "Blood type " + blood + " needed at " + hospital + " in city " + cityLocation);
                     notif.put("sound","default");
                     //
-                    notif.put("click_action", "MainActivity");
+                    //notif.put("click_action", "MainActivity");
                     //
                     jsonObjects.put("notification",notif);
                     jsonObjects.put("to","/topics/" + cityLocation + blood);

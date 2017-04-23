@@ -57,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         holder.txtAccept.setOnClickListener(new View.OnClickListener() { //Accept Button
             @Override
             public void onClick(View view) {
-                RequestFunction r = listOfRequestsHome.get(position);
+                Request r = listOfRequestsHome.get(position);
                 r.acceptUnit();
                 listItems.remove(position);
                 if(r.getUnits() != 0){

@@ -1,22 +1,24 @@
 package jram_mack.oneg;
 
-        import android.content.Intent;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.ListView;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
-        import com.google.firebase.database.ChildEventListener;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-        import static jram_mack.oneg.HomeActivity.mDatabase;
 
 public class MyRequestsActivity extends AppCompatActivity {
     private ListView myList;
@@ -26,10 +28,12 @@ public class MyRequestsActivity extends AppCompatActivity {
     // ArrayList<String> data = new ArrayList<String>();
     private RecyclerView recyclerView2;
     private RecyclerView.Adapter adapter2;
-    private List<RecyclerItem> listItems2;
+    public static List<RecyclerItem> listItems2;
     private RecyclerView.LayoutManager mLayoutManager;
-    public static ArrayList<RequestFunction> listOfMyRequests;
+    public static ArrayList<Request> listOfMyRequests;
     private Button AcceptedMyRequests;
+    protected DatabaseReference mDatabase;
+
 
 
 
@@ -66,7 +70,7 @@ public class MyRequestsActivity extends AppCompatActivity {
         myHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               onBackPressed();
+                onBackPressed();
             }
         });
         recyclerView2 = (RecyclerView) findViewById(R.id.recyclerView2);
@@ -105,37 +109,43 @@ public class MyRequestsActivity extends AppCompatActivity {
 //                        });
 //
 //                AlertDialog alert =altdial.create();
-//                alert.setTitle("RequestFunction Information");
+//                alert.setTitle("Request Information");
 //                alert.show();
 //            }
 //        });         //Dialog Box Ends
 
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("ListOfAllRequests");
+
         mDatabase.addChildEventListener(new ChildEventListener() {
 
             String value;
-            RequestFunction r;
+            Request r;
             RecyclerItem re;
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //Toast.makeText(MyRequestsActivity.this, dataSnapshot.child("phoneNumber").getValue().toString(), Toast.LENGTH_LONG).show();
+                if(dataSnapshot.child("status").getValue().toString().equals("true")) {
 
-                if(dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())){
-                    r = new RequestFunction(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
-                            dataSnapshot.child("hospital").getValue().toString(),
-                            dataSnapshot.child("city").getValue().toString(),
-                            Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                            dataSnapshot.child("phoneNumber").getValue().toString(),
-                            dataSnapshot.child("key").getValue().toString()
-                    );
 
-                    if(dataSnapshot.child("status").getValue().toString().equals("true")){
+                    if (dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())) {
+                        r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                                dataSnapshot.child("hospital").getValue().toString(),
+                                dataSnapshot.child("city").getValue().toString(),
+                                Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
+                                dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
+                                dataSnapshot.child("key").getValue().toString()
+                        );
+
+                        //if(dataSnapshot.child("status").getValue().toString().equals("true")){
                         value = dataSnapshot.child("hospital").getValue().toString();
-                        re = new RecyclerItem(value,r.toString()); //hone u add the values
+                        re = new RecyclerItem(value, r.toString()); //hone u add the values
                         listItems2.add(re);
                         listOfMyRequests.add(r);
-                    }
+                        //}
 
+                    }
                 }
                 adapter2.notifyDataSetChanged();
 
@@ -147,11 +157,11 @@ public class MyRequestsActivity extends AppCompatActivity {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 value = dataSnapshot.getValue().toString();
                 re = new RecyclerItem(value,"");
-                r = new RequestFunction(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
                         dataSnapshot.child("hospital").getValue().toString(),
                         dataSnapshot.child("city").getValue().toString(),
                         Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                        dataSnapshot.child("phoneNumber").getValue().toString(),
+                        dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
                         dataSnapshot.child("key").getValue().toString()
                 );
 

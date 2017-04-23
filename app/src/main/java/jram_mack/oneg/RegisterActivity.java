@@ -2,6 +2,7 @@ package jram_mack.oneg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
     public String blood;
     public String myTopic;
 
+    static SharedPreferences sharedpreferences;
+    protected final String MyPREFERENCES = "MyPrefs";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
         //actionBar.hide();
         getSupportActionBar().setTitle("Register");
         setContentView(R.layout.activity_register);
+
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
 
         EditTextName = (EditText) findViewById(R.id.TextName);
 
@@ -179,7 +187,60 @@ public class RegisterActivity extends AppCompatActivity {
 
                 myTopic = CitySpinner.getSelectedItem().toString() + blood;
                 FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-
+                /*FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
+                */
                 ////
 
 
@@ -208,11 +269,18 @@ public class RegisterActivity extends AppCompatActivity {
                                 ).setValue(user);
 
                                 mDatabase.child("ListOfAllUsers" + "/" + user.getKey()).setValue(user);
+                                editor.putString("name", RegisterActivity.user.getName());
+                                editor.putString("city", RegisterActivity.user.getCity());
+                                editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
+                                editor.putString("gender",RegisterActivity.user.getGender());
+                                editor.putString("bloodType", RegisterActivity.user.getBloodType());
+                                editor.putString("logged", "true");
+                                editor.commit();
                                 signUP();
 
 
-                               // Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
-                               // startActivity(i);
+                                // Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
+                                // startActivity(i);
                             }
 
 
@@ -230,7 +298,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
     public static String getCitySpinner(){
-       return CitySpinner.getSelectedItem().toString();
+        return CitySpinner.getSelectedItem().toString();
     }
 
 
@@ -259,7 +327,7 @@ public class RegisterActivity extends AppCompatActivity {
                     customToken = callOnNetwork(url);
                     Log.d("RegisterActivity", "******** FULL TOKEN: " + customToken + " *******");//the Full token we get from heroku
                     String realPhoneNumber = makeReal(phoneNumber.getText().toString());
-                     String twilioURL = "https://onegapp.herokuapp.com/twiliosms/" + realPhoneNumber + "/" + "Code:" + customToken.substring(customToken.length()-4, customToken.length());
+                    String twilioURL = "https://onegapp.herokuapp.com/twiliosms/" + realPhoneNumber + "/" + "Code:" + customToken.substring(customToken.length()-4, customToken.length());
                     //String twilioURL = "https://onegapp.herokuapp.com/twiliosms/+9613504030/" + "Code:" + customToken.substring(customToken.length() - 4, customToken.length());
                     callOnNetwork(twilioURL);
 
@@ -289,7 +357,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public String makeReal(String n) {
         if(n.startsWith("0")) {
-            return "+961" + n.substring(2);
+            return "+961" + n.substring(1);
         }else {
             return "+961" + n;
         }

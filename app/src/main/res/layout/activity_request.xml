@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNumberRequest"
         android:layout_marginBottom="42dp"
         android:hint="Phone Number "
         android:textAlignment="center"
@@ -35,19 +35,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bloodTypeSpinner"
-        android:layout_marginBottom="72dp"
         android:layout_above="@+id/citySpinner"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="62dp" />
 
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/citySpinner"
-        android:layout_above="@+id/phoneNumber"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="64dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/requestButton3"
