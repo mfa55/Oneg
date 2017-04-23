@@ -254,7 +254,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.mnu_item_Edit:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Delete Account");
-                builder.setMessage("Are you sure? This action can't be reverted");
+                builder.setMessage("Are you sure? This action cannot be reverted");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

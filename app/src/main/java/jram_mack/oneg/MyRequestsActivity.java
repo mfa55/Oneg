@@ -1,6 +1,9 @@
 package jram_mack.oneg;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +40,8 @@ public class MyRequestsActivity extends AppCompatActivity {
     private Button AcceptedMyRequests;
     protected DatabaseReference mDatabase;
 
-
+    static SharedPreferences sharedpreferences;
+    protected final String MyPREFERENCES = "MyPrefs";
 
 
     @Override
@@ -226,28 +230,50 @@ public class MyRequestsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent mario = new Intent(MyRequestsActivity.this, MainActivity.class);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final Intent mario = new Intent(MyRequestsActivity.this, MainActivity.class);
         switch(item.getItemId()){
             case R.id.mnu_item_signout:
-                Intent j = new Intent(MyRequestsActivity.this,MainActivity.class);
+
                 //RegisterActivity.user = null;
-                MainActivity.sharedpreferences.edit().putString("logged", "").commit();
-
-                startActivity(j);
-                break;
-            case R.id.mnu_item_Edit:
-                String phone = RegisterActivity.user.getPhoneNumber();
-                mDatabase = FirebaseDatabase.getInstance().getReference("Users" + "/"
-                        + RegisterActivity.user.getCity() + "/" + RegisterActivity.user.getBloodType()
-
-                );
-                mDatabase.child(phone).removeValue();
-                RegisterActivity.user = null;
-                MainActivity.sharedpreferences.edit().putString("logged", "").commit();
-                mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
-                mDatabase.child(phone).removeValue();
+                editor.putString("logged", "");
+                editor.commit();
 
                 startActivity(mario);
+
+                break;
+            case R.id.mnu_item_Edit:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Account");
+                builder.setMessage("Are you sure? This action cannot be reverted");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String phone = RegisterActivity.user.getPhoneNumber();
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users" + "/"
+                                + RegisterActivity.user.getCity() + "/" + RegisterActivity.user.getBloodType()
+
+                        );
+                        mDatabase.child(phone).removeValue();
+                        RegisterActivity.user = null;
+                        mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
+                        mDatabase.child(phone).removeValue();
+
+                        startActivity(mario);
+                        dialogInterface.cancel();
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                AlertDialog alert =builder.create();
+                alert.show();
 
 
                 break;
