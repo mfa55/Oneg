@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("ListOfAllUsers");
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedpreferences.edit();
 
         if(sharedpreferences.getString("logged","").equals("true")){
 
             Intent redirect = new Intent(MainActivity.this, HomeActivity.class);
+
 
 
             RegisterActivity.user = new User(
@@ -62,12 +63,10 @@ public class MainActivity extends AppCompatActivity {
                     sharedpreferences.getString("bloodType", "")
             );
 
-
-            MainActivity.i = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(MainActivity.i);
-
-
+            Toast.makeText(MainActivity.this, "Welcome Back " + sharedpreferences.getString("name", "").toString(), Toast.LENGTH_LONG).show();
             startActivity(redirect);
+
+
         }
 
 
@@ -115,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
                                     dataSnapshot.child(sharedpreferences.getString("phoneNumber", "") + "/" + "bloodType").getValue().toString()
                                     // dataSnapshot.child(reverseString(phoneNumber.getText().toString())+ "/" + "password").getValue().toString()
                             );
+
+                            editor.putString("name", RegisterActivity.user.getName());
+                            editor.putString("city", RegisterActivity.user.getCity());
+                            editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
+                            editor.putString("gender", RegisterActivity.user.getGender());
+                            editor.putString("bloodType", RegisterActivity.user.getBloodType());
+
+
 
                             editor.putString("logged", "true");
 

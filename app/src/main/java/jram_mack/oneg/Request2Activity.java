@@ -58,7 +58,7 @@ public class Request2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_request2);
 
         Bundle bundle = getIntent().getExtras();
-        phoneOnRequest2 = bundle.getString("phoneNumber");
+        phoneOnRequest2 = bundle.getString("XphoneNumber");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -132,7 +132,7 @@ public class Request2Activity extends AppCompatActivity {
                     cityLocation = RequestActivity.citySpinner.getSelectedItem().toString();
                     hospital = hospitalSpinner.getSelectedItem().toString();
 
-                    String myTopic = cityLocation + blood;
+                    String myTopic = RegisterActivity.makerealCity(cityLocation) + blood;
                     String userTopic = RegisterActivity.user.getCity() + RegisterActivity.user.getBloodType();
 /////
 
@@ -186,7 +186,7 @@ public class Request2Activity extends AppCompatActivity {
     OkHttpClient client = new OkHttpClient();
     //we can unsbbicribe from topic first, send notification, then resuscribe to it.
     public void sendNotification(){
-        // Toast.makeText(this,"TOPIC: " + city + blood, Toast.LENGTH_LONG).show();
+         Toast.makeText(this,"TOPIC: " + cityLocation + blood, Toast.LENGTH_LONG).show();
         Thread threadN = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -205,7 +205,7 @@ public class Request2Activity extends AppCompatActivity {
                     //notif.put("click_action", "MainActivity");
                     //
                     jsonObjects.put("notification",notif);
-                    jsonObjects.put("to","/topics/" + cityLocation + blood);
+                    jsonObjects.put("to","/topics/" + RegisterActivity.makerealCity(cityLocation) + blood);
 
                     //JUST TO TEST
                     //jsonObjects.put("to","/topics/BeirutSMinus");

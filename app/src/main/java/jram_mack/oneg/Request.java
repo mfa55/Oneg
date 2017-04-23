@@ -1,7 +1,9 @@
 package jram_mack.oneg;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Mario_Abou_Naaman on 2/16/17.
@@ -20,6 +22,8 @@ public class Request {
     protected String userID;
     private String name;
     private String phoneNumberOnListView;
+
+
 
     public String getCurrentDateTime() {
         return currentDateTime;
@@ -141,6 +145,9 @@ public class Request {
 
     }
 
+
+
+
     public Request(String name, String bloodType, String hospital, String city, int units, String phoneNumber, String key){
         this.bloodType = bloodType;
         this.hospital = hospital;
@@ -154,6 +161,7 @@ public class Request {
         SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
         this.currentDateTime = date.format(new Date());
         setPhoneNumberOnListView(phoneNumber);
+
 
     }
 

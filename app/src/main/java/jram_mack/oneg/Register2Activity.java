@@ -1,7 +1,10 @@
 package jram_mack.oneg;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +36,7 @@ public class Register2Activity extends AppCompatActivity {
         Log.d("SecondActivity", "************THE LONG TOKEN: " + realToken);
         Log.d("SecondActivity", "************THE SHORT TOKEN: " + realToken.substring(realToken.length()-4, realToken.length()));
         mytoken = (EditText) findViewById(R.id.etToken);
-        Toast.makeText(Register2Activity.this, realToken.substring(realToken.length()-4, realToken.length()), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(Register2Activity.this, realToken.substring(realToken.length()-4, realToken.length()), Toast.LENGTH_SHORT).show();
         verify = (Button) findViewById(R.id.btnVerify);
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,18 +64,18 @@ public class Register2Activity extends AppCompatActivity {
 
                     if(!task.isSuccessful()) {
                         Log.w("SecondActivity", "signInWithCustomToken: ", task.getException());
-                        Toast.makeText(Register2Activity.this, "FAIL", Toast.LENGTH_SHORT).show();
 
                     }
                 }
             });
-            Intent i = new Intent(Register2Activity.this, HomeActivity.class);
+            Intent i = new Intent(Register2Activity.this, WelcomeScreen.class);
             startActivity(i);
         }else {
-            Toast.makeText(Register2Activity.this, "Wrong Code", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Register2Activity.this, "FAILED", Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
 
 }

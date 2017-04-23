@@ -42,17 +42,17 @@
                 android:layout_centerHorizontal="true"
 
                 />
+
             <TextView
+                android:id="@+id/txtRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="17dp"
-                android:text="REMOVE"
-                android:id="@+id/txtRemove"
                 android:layout_alignTop="@id/seperator2"
                 android:layout_marginTop="10dp"
+                android:text="CANCEL"
                 android:textColor="@color/light_blue"
-                />
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

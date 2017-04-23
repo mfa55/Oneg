@@ -130,7 +130,7 @@ public class RequestActivity extends AppCompatActivity {
 
                     Intent i = new Intent(RequestActivity.this, Request2Activity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("phoneNumber", phoneNumber.getText().toString());
+                    bundle.putString("XphoneNumber", phoneNumber.getText().toString());
                     i.putExtras(bundle);
 
                     startActivity(i);

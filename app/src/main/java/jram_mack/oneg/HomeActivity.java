@@ -1,8 +1,11 @@
 package jram_mack.oneg;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.LocaleDisplayNames;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jram_mack.oneg.Accepted.acceptedRequestsListItem;
-import static jram_mack.oneg.Accepted.listOfRequestsMyRequests;
+import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
+
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -42,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayAdapter<String> arrayAdapter;
     private Button AcceptedHome;
+    static SharedPreferences sharedpreferences;
+    protected final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +58,13 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
         String title = "Requests "+ RegisterActivity.user.getBloodType();
         getSupportActionBar().setTitle(title);
         setContentView(R.layout.activity_home);
         AcceptedHome = (Button) findViewById(R.id.AcceptedHome);
-        if(listOfRequestsMyRequests == null){
-            listOfRequestsMyRequests = new ArrayList<>();
+        if(listOfAcceptedRequests == null){
+            listOfAcceptedRequests = new ArrayList<>();
             if(acceptedRequestsListItem == null){
                 acceptedRequestsListItem = new ArrayList<>();
             }
@@ -71,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        listOfRequestsMyRequests = new ArrayList<>();
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Requests" + "/"
@@ -127,59 +133,63 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.child("status").getValue().toString().equals("true")) {
+                if(dataSnapshot.hasChild("status")) {
+                    if (dataSnapshot.child("status").getValue().toString().equals("true")) {
+
+                        if (!dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())) {
+                            r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                                    dataSnapshot.child("hospital").getValue().toString(),
+                                    dataSnapshot.child("city").getValue().toString(),
+                                    Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
+                                    dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
+                                    dataSnapshot.child("key").getValue().toString()
+                            );
+
+                            if (dataSnapshot.child("status").getValue().toString().equals("true")) {
+                                if (dataSnapshot.hasChild(RegisterActivity.user.getPhoneNumber())) {
+                                    if (!dataSnapshot.child(RegisterActivity.user.getPhoneNumber()).getValue().equals("Accepted")) {
+                                        value = dataSnapshot.child("hospital").getValue().toString();
+                                        re = new RecyclerItem(value, r.toString()); //hone u add the values
+                                        listOfHospitals.add(re);
+                                        listOfRequestsHome.add(r);
+                                    } else {
+                                        listOfAcceptedRequests.add(r);
+
+                                    }
+                                } else {
+                                    value = dataSnapshot.child("hospital").getValue().toString();
+                                    re = new RecyclerItem(value, r.toString()); //hone u add the values
+                                    listOfHospitals.add(re);
+                                    listOfRequestsHome.add(r);
+                                }
 
 
-                    if (!dataSnapshot.child("phoneNumber").getValue().toString().equals(RegisterActivity.user.getPhoneNumber())) {
-                        r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
-                                dataSnapshot.child("hospital").getValue().toString(),
-                                dataSnapshot.child("city").getValue().toString(),
-                                Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                                dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
-                                dataSnapshot.child("key").getValue().toString()
-                        );
+                            }
+                            adapter.notifyDataSetChanged();
 
-                        if (dataSnapshot.child("status").getValue().toString().equals("true")) {
-                            value = dataSnapshot.child("hospital").getValue().toString();
-                            re = new RecyclerItem(value, r.toString()); //hone u add the values
-                            listOfHospitals.add(re);
-                            listOfRequestsHome.add(r);
-                        } else {
-                            listOfRequestsMyRequests.add(r);
                         }
-                        adapter.notifyDataSetChanged();
-
                     }
+
                 }
-
-
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                value = dataSnapshot.getValue().toString();
-                re = new RecyclerItem(value,"");
-                r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
-                        dataSnapshot.child("hospital").getValue().toString(),
-                        dataSnapshot.child("city").getValue().toString(),
-                        Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                        dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
-                        dataSnapshot.child("key").getValue().toString()
-                );
-
-                //listOfHospitals.remove(value);
-                //listOfHospitals.add(re);
-                //listOfRequestsHome.remove(index);
-                //listOfHospitals.add(index, re);
+                    value = dataSnapshot.getValue().toString();
+                    re = new RecyclerItem(value,"");
+                    r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                            dataSnapshot.child("hospital").getValue().toString(),
+                            dataSnapshot.child("city").getValue().toString(),
+                            Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
+                            dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
+                            dataSnapshot.child("key").getValue().toString()
+                    );
 
 
-                //if(listOfRequestsHome.get(index).getStatus() == false){
-                //listOfHospitals.remove(index);
-                //listOfRequestsHome.remove(index);
 
 
-                adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
 
 
 
@@ -228,20 +238,50 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final Intent mario = new Intent(HomeActivity.this, MainActivity.class);
         switch(item.getItemId()){
             case R.id.mnu_item_signout:
-                Intent j = new Intent(HomeActivity.this,MainActivity.class);
-                RegisterActivity.user = null;
-                //SharedPreferences settings = getSharedPreferences("MyPrefs", 0);
-                // SharedPreferences.Editor editor = settings.edit();
-                // editor.clear();
-                // editor.commit();
 
-                startActivity(j);
+                //RegisterActivity.user = null;
+                editor.putString("logged", "");
+                editor.commit();
+
+                startActivity(mario);
+
                 break;
             case R.id.mnu_item_Edit:
-                // Intent i = new Intent(HomeActivity.this,EditProfileActivity.class);
-                //startActivity(i);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Account");
+                builder.setMessage("Are you sure? This action can't be reverted");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String phone = RegisterActivity.user.getPhoneNumber();
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users" + "/"
+                                + RegisterActivity.user.getCity() + "/" + RegisterActivity.user.getBloodType()
+
+                        );
+                        mDatabase.child(phone).removeValue();
+                        RegisterActivity.user = null;
+                        mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
+                        mDatabase.child(phone).removeValue();
+
+                        startActivity(mario);
+                        dialogInterface.cancel();
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                AlertDialog alert =builder.create();
+                alert.show();
 
 
                 break;

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import static jram_mack.oneg.HomeActivity.listOfRequestsHome;
+import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 /**
  * Created by white_000 on 4/14/2017.
@@ -46,7 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.callCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", listOfRequestsHome.get(position).getPhoneNumberOnListView(), null)));
+                mContext.startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", listOfAcceptedRequests.get(position).getPhoneNumberOnListView(), null)));
             }
         });
 

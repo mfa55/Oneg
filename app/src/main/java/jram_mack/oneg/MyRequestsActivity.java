@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -155,28 +158,31 @@ public class MyRequestsActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                value = dataSnapshot.getValue().toString();
-                re = new RecyclerItem(value,"");
-                r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
-                        dataSnapshot.child("hospital").getValue().toString(),
-                        dataSnapshot.child("city").getValue().toString(),
-                        Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
-                        dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
-                        dataSnapshot.child("key").getValue().toString()
-                );
-
-                //listOfHospitals.remove(value);
-                //listOfHospitals.add(re);
-                //listOfRequestsHome.remove(index);
-                //listOfHospitals.add(index, re);
+                if(dataSnapshot.child("phoneNumber").getValue().equals(RegisterActivity.user.getPhoneNumber())) {
+                    value = dataSnapshot.getValue().toString();
+                    re = new RecyclerItem(value, "");
+                    r = new Request(dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("bloodType").getValue().toString(),
+                            dataSnapshot.child("hospital").getValue().toString(),
+                            dataSnapshot.child("city").getValue().toString(),
+                            Integer.parseInt(dataSnapshot.child("units").getValue().toString()),
+                            dataSnapshot.child("phoneNumberOnListView").getValue().toString(),
+                            dataSnapshot.child("key").getValue().toString()
+                    );
 
 
-                //if(listOfRequestsHome.get(index).getStatus() == false){
-                //listOfHospitals.remove(index);
-                //listOfRequestsHome.remove(index);
+                    //listOfHospitals.remove(value);
+                    //listOfHospitals.add(re);
+                    //listOfRequestsHome.remove(index);
+                    //listOfHospitals.add(index, re);
 
 
-                adapter2.notifyDataSetChanged();
+                    //if(listOfRequestsHome.get(index).getStatus() == false){
+                    //listOfHospitals.remove(index);
+                    //listOfRequestsHome.remove(index);
+
+
+                    adapter2.notifyDataSetChanged();
+                }
 
 
 
@@ -209,6 +215,47 @@ public class MyRequestsActivity extends AppCompatActivity {
     public void onBackPressed(){
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent mario = new Intent(MyRequestsActivity.this, MainActivity.class);
+        switch(item.getItemId()){
+            case R.id.mnu_item_signout:
+                Intent j = new Intent(MyRequestsActivity.this,MainActivity.class);
+                //RegisterActivity.user = null;
+                MainActivity.sharedpreferences.edit().putString("logged", "").commit();
+
+                startActivity(j);
+                break;
+            case R.id.mnu_item_Edit:
+                String phone = RegisterActivity.user.getPhoneNumber();
+                mDatabase = FirebaseDatabase.getInstance().getReference("Users" + "/"
+                        + RegisterActivity.user.getCity() + "/" + RegisterActivity.user.getBloodType()
+
+                );
+                mDatabase.child(phone).removeValue();
+                RegisterActivity.user = null;
+                MainActivity.sharedpreferences.edit().putString("logged", "").commit();
+                mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
+                mDatabase.child(phone).removeValue();
+
+                startActivity(mario);
+
+
+                break;
+
+
+        }
+        return true;
+
     }
 
 

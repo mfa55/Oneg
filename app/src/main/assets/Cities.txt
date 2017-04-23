@@ -1,8 +1,8 @@
 Select City
 Beirut
 Bekaa
-Kesrouan/Jbeil
-Chouf/Aley
-Metn/Baabda
+Kesrouan;Jbeil
+Chouf;Aley
+Metn;Baabda
 North Lebanon
 South Lebanon

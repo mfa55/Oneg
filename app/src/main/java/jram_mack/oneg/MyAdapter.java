@@ -16,7 +16,7 @@ import java.util.List;
 import static jram_mack.oneg.HomeActivity.listOfRequestsHome;
 import static jram_mack.oneg.HomeActivity.mDatabase;
 import static jram_mack.oneg.Accepted.acceptedRequestsListItem;
-import static jram_mack.oneg.Accepted.listOfRequestsMyRequests;
+import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
 /**
@@ -74,7 +74,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                listOfRequestsMyRequests.add(listOfRequestsHome.get(position));
+                mDatabase.child(r.getKey()).child(RegisterActivity.user.getPhoneNumber()).setValue("Accepted");
+                listOfAcceptedRequests.add(listOfRequestsHome.get(position));
                 acceptedRequestsListItem.add(new RecyclerItem(r.getHospital(), r.toString()));
                 listOfRequestsHome.remove(position);
                 notifyDataSetChanged();
@@ -84,6 +85,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         holder.txtRejected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Request r = listOfRequestsHome.get(position);
+                mDatabase.child(r.getKey()).child(RegisterActivity.user.getPhoneNumber()).setValue("Removed");
                 listItems.remove(position);
                 notifyDataSetChanged();
                 Toast.makeText(mContext, "REQUEST REJECTED",Toast.LENGTH_LONG).show();

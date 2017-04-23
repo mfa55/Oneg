@@ -185,62 +185,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-                myTopic = CitySpinner.getSelectedItem().toString() + blood;
+                myTopic = makerealCity(CitySpinner.getSelectedItem().toString()) + blood;
                 FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                /*FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                FirebaseMessaging.getInstance().subscribeToTopic(myTopic);
-                */
+
                 ////
 
 
@@ -362,5 +309,17 @@ public class RegisterActivity extends AppCompatActivity {
             return "+961" + n;
         }
     }
+
+    public static String makerealCity(String s){
+        String temp = "";
+        for(int i = 0 ; i < s.length(); i++){
+            if(!(s.charAt(i)+"").equals(";") && !(s.charAt(i)+"").equals(" ")){
+                temp = temp + s.charAt(i);
+            }
+        }
+
+        return temp;
+    }
+
 
 }

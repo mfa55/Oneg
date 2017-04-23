@@ -2,9 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jram_mack.oneg">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +25,9 @@
         <activity android:name=".MyRequestsActivity" />
         <activity android:name=".Request2Activity" />
         <activity android:name=".Register2Activity" />
-        <activity android:name=".Accepted"></activity>
+        <activity android:name=".Accepted" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".WelcomeScreen"></activity>
     </application>
 
 </manifest>

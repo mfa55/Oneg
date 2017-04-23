@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:id="@+id/mnu_item_Edit" android:title="Edit Profile"/>
+    <item android:id="@+id/mnu_item_Edit" android:title="Delete Account"/>
     <item android:id="@+id/mnu_item_signout" android:title="Sign Out"/>
 </menu>
