@@ -1,5 +1,16 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * This is the second part of the registration procedure
+ * The user is expected to receive a text message and enter the verification code.
+ * A successful registration will redirect the user to the welcome screen
+ *
+ */
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
+
+
 public class Register2Activity extends AppCompatActivity {
     public EditText mytoken;
     public Button verify;
@@ -25,6 +39,14 @@ public class Register2Activity extends AppCompatActivity {
 
 
     public String realToken;
+
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * the user will be provided with a text box where the verification code is required to enter
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +72,11 @@ public class Register2Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     * @param tokenCode token sent to twilio
+     * @param realToken verification code sent back to the user
+     */
     public void signIn(String tokenCode, String realToken) {
 
         if(realToken.endsWith(tokenCode)) {

@@ -1,5 +1,18 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ * Home activity where the user can interact with other users.
+ * the user can accept or reject any request
+ * the user has the ability of calling the the recipient
+ *
+ *
+ */
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +46,9 @@ import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
 
+
+
+
 public class HomeActivity extends AppCompatActivity {
 
     public static DatabaseReference mDatabase;
@@ -49,6 +65,16 @@ public class HomeActivity extends AppCompatActivity {
     static SharedPreferences sharedpreferences;
     protected final String MyPREFERENCES = "MyPrefs";
 
+
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * the user is provided with a list of the current available requests
+     * the user is able to accept or reject any of the requests
+     * the user is able to call the recipient
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,10 +242,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private void dialContactPhone(final String phoneNumber) {
-        startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
-    }
 
+    /**
+     * This method defines the action of the android back button
+     * When pressed, the android back button takes the user from the Request page to the Home page.
+     */
     @Override
     public void onBackPressed(){
         Intent mainActivity = new Intent(Intent.ACTION_MAIN);
@@ -229,6 +256,11 @@ public class HomeActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     *
+     * @param menu menu in the action bar containing the sign out and delete account buttons
+     * @return true(hardcoded on purpose)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -236,10 +268,15 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *
+     * @param item item selected in the toolbar menu
+     * @return true (hardcoded on purpose)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
         final Intent mario = new Intent(HomeActivity.this, MainActivity.class);
         switch(item.getItemId()){
             case R.id.mnu_item_signout:
@@ -267,6 +304,14 @@ public class HomeActivity extends AppCompatActivity {
                         RegisterActivity.user = null;
                         mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
                         mDatabase.child(phone).removeValue();
+                        MainActivity.sharedpreferences.edit().clear();
+
+                        MainActivity.sharedpreferences.edit().commit();
+
+                        MainActivity.editor.clear();
+
+                        MainActivity.editor.commit();
+                        Intent mario = new Intent(HomeActivity.this, MainActivity.class);
 
                         startActivity(mario);
                         dialogInterface.cancel();

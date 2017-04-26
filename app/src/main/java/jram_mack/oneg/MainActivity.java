@@ -1,5 +1,15 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ * in this page, the user has the ability to log in or register to the app
+ *
+ */
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -36,7 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
     static SharedPreferences sharedpreferences;
     protected final String MyPREFERENCES = "MyPrefs";
+    static SharedPreferences.Editor editor;
 
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * the user is provided with a text box where he can enter his phone number
+     * the user is provided with a two buttons: one button that grants the user access to his account
+     *                           and one button that redirect the user to the regitration activity RegisterActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("ListOfAllUsers");
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor = sharedpreferences.edit();
 
         if(sharedpreferences.getString("logged","").equals("true")){
 
@@ -127,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
                             editor.commit();
 
+                            Toast.makeText(MainActivity.this, "Welcome " + sharedpreferences.getString("name", "").toString(), Toast.LENGTH_LONG).show();
+
                             MainActivity.i = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(MainActivity.i);
                         }
@@ -145,7 +167,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     *
+     * @param ev movement that the user does on the screen
+     * @return calls the super class
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();

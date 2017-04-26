@@ -1,5 +1,16 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * This is the first part of the request procedure
+ * The user is required to enter a name, choose a city and a blood type then enter a phone number
+ * A successful completion of these information will redirect the user to the next activity Request2
+ *
+ */
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+
+
 public class RequestActivity extends AppCompatActivity {
 
     protected DatabaseReference mDatabase;
@@ -41,7 +54,13 @@ public class RequestActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter1;
     public static EditText name;  // Added name
 
-
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * In this method, the user is provided with two spinners containing the list of cities and the blood type to be chosen, two text fields for the name of the recipient and his phone number and one button that redirects the user to the Request2 page.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,8 +151,14 @@ public class RequestActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("XphoneNumber", phoneNumber.getText().toString());
                     i.putExtras(bundle);
+                    if (phoneNumber.getText().toString().length()!=8){
+                        Toast.makeText(RequestActivity.this, "INVALID PHONE NUMBER", Toast.LENGTH_SHORT).show();
 
-                    startActivity(i);
+                    } else {
+                        startActivity(i);
+
+                    }
+
 
                 }
 
@@ -143,7 +168,11 @@ public class RequestActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     *
+     * @param ev movement that the user does on the screen
+     * @return calls the super class
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
@@ -158,6 +187,10 @@ public class RequestActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    /**
+     * This method defines the action of the android back button
+     * When pressed, the android back button takes the user from the Request page to the Home page.
+     */
     @Override
     public void onBackPressed(){
         Intent i = new Intent(this, HomeActivity.class);

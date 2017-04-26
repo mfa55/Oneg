@@ -1,5 +1,16 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * This is the second part of the request procedure
+ * The user is required to choose a hospital according to the city chosen in the previous activity (RequestActivity)
+ * and the number of units required for the blood donation.
+ *
+ */
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +60,15 @@ public class Request2Activity extends AppCompatActivity {
     public String hospital;
     private String phoneOnRequest2;
 
+
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * In this method, the user is provided with two spinners containing the list of hospitals and the number of units to be chosen and one button that redirects the user to the Home page after a successful submission of the Request.
+     * When a request is submitted, the request's information are stored in the Firebase database under the corresponding city and blood type.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +196,11 @@ public class Request2Activity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * This method defines the action of the android back button
+     * When pressed, the android back button takes the user from the Request2 page to the Home page.
+     */
     @Override
     public void onBackPressed(){
         Intent i = new Intent(this, HomeActivity.class);
@@ -185,8 +210,17 @@ public class Request2Activity extends AppCompatActivity {
 
     OkHttpClient client = new OkHttpClient();
     //we can unsbbicribe from topic first, send notification, then resuscribe to it.
+
+
+    /**
+     * This method is responsible of sending a notification to all the proper users when a request is made.
+     * The users that will receive this notification are the users that live in the same city and have the same blood type as the ones mentioned in the request.
+     *
+     * The notifications are sent according to their topic.
+     * A topic is a string containing the city where the recipient lives and the blood type of the recipient
+     *
+     */
     public void sendNotification(){
-         Toast.makeText(this,"TOPIC: " + cityLocation + blood, Toast.LENGTH_LONG).show();
         Thread threadN = new Thread(new Runnable() {
             @Override
             public void run() {

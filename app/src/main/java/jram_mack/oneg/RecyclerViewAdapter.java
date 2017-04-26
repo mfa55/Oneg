@@ -1,5 +1,15 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ * Card view for the Accepted List of Requests
+ *
+ */
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,9 +25,7 @@ import java.util.List;
 
 import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
-/**
- * Created by white_000 on 4/14/2017.
- */
+
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<RecyclerItem> listItems;
@@ -36,7 +44,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
-
+    /**
+     *
+     * @param holder : card view that user is clicking on
+     * @param position : position of the card that was clicked in the list
+     */
     @Override
 
     public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -51,6 +63,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
     }
+
+    /**
+     *
+     * @return the UI of the MyRequests card view
+     */
     @Override
     public int getItemCount() {
         return listItems.size();

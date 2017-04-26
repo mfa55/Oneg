@@ -1,9 +1,17 @@
 package jram_mack.oneg;
 
+
 /**
- * Created by white_000 on 3/30/2017.
- * Adapter For MyRequest Activity
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * this class defines the shape of the card view in MyRequestsActivity
+ *
  */
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,15 +27,22 @@ import java.util.List;
 
 import static jram_mack.oneg.MyRequestsActivity.listOfMyRequests;
 
+
 public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder>  {
     private List<RecyclerItem> listItems;
     private Context mContext;
     protected DatabaseReference mDatabase;
 
+    /**
+     *
+     * @param listItems list containing all the cards
+     * @param mContext context of the card view
+     */
     public SampleAdpater(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
         this.mContext = mContext;
     }
+
     @Override
     public SampleAdpater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_two,parent,false);
@@ -36,7 +51,11 @@ public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder
     }
 
 
-
+    /**
+     *
+     * @param holder : card view that user is clicking on
+     * @param position : position of the card that was clicked in the list
+     */
     @Override
 
     public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -82,6 +101,11 @@ public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder
             }
         });
     }
+
+    /**
+     *
+     * @return the UI of the MyRequests card view
+     */
     @Override
     public int getItemCount() {
         return listItems.size();

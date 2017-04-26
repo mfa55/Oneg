@@ -1,5 +1,15 @@
 package jram_mack.oneg;
-
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * MyRequests activity where the user can interact with the users whom he/she has accepted their requests.
+ * the user has the ability of calling the the recipient
+ *
+ */
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +53,14 @@ public class MyRequestsActivity extends AppCompatActivity {
     static SharedPreferences sharedpreferences;
     protected final String MyPREFERENCES = "MyPrefs";
 
-
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * the user is provided with a list of the caccepted requests
+     * the user is able to call the recipient
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,24 +231,35 @@ public class MyRequestsActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * This method defines the action of the android back button
+     * When pressed, the android back button takes the user from the Request page to the Home page.
+     */
     @Override
     public void onBackPressed(){
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
     }
-
+    /**
+     *
+     * @param menu menu in the action bar containing the sign out and delete account buttons
+     * @return true(hardcoded on purpose)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
-
+    /**
+     *
+     * @param item item selected in the toolbar menu
+     * @return true (hardcoded on purpose)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
         final Intent mario = new Intent(MyRequestsActivity.this, MainActivity.class);
         switch(item.getItemId()){
             case R.id.mnu_item_signout:
@@ -259,6 +287,14 @@ public class MyRequestsActivity extends AppCompatActivity {
                         RegisterActivity.user = null;
                         mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
                         mDatabase.child(phone).removeValue();
+                        MainActivity.sharedpreferences.edit().clear();
+
+                        MainActivity.sharedpreferences.edit().commit();
+
+                        MainActivity.editor.clear();
+
+                        MainActivity.editor.commit();
+                        Intent mario = new Intent(MyRequestsActivity.this, MainActivity.class);
 
                         startActivity(mario);
                         dialogInterface.cancel();

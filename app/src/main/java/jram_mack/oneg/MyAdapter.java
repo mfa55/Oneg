@@ -1,4 +1,14 @@
 package jram_mack.oneg;
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * card view for the home activity, where the user can accept or reject any request and call the recipient as well
+ *
+ */
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,16 +29,17 @@ import static jram_mack.oneg.Accepted.acceptedRequestsListItem;
 import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
-/**
- * Created by white_000 on 3/28/2017.
- */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
     private List<RecyclerItem> listItems;
     private Context mContext;
     public static int index;
 
-
+    /**
+     *
+     * @param listItems list containing all the cards
+     * @param mContext context of the card view
+     */
     public MyAdapter(List<RecyclerItem> listItems, Context mContext) {
         this.listItems = listItems;
         this.mContext = mContext;
@@ -41,6 +52,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         return new ViewHolder(v);
     }
 
+
+    /**
+     *
+     * @param holder : card view that user is clicking on
+     * @param position : position of the card that was clicked in the list
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         index = position;
@@ -95,6 +112,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         });
     }
 
+    /**
+     *
+     * @return the UI of the MyRequests card view
+     */
     @Override
     public int getItemCount() {
         return listItems.size();

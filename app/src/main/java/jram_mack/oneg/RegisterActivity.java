@@ -1,4 +1,16 @@
 package jram_mack.oneg;
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * This is the first part of the registration procedure
+ * The user is required to enter his name, choose a city , a gender and a blood type and enter a phone number
+ * A successful completion of these information will redirect the user to the authentication page Register2
+ *
+ */
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +46,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
+
 public class RegisterActivity extends AppCompatActivity {
 
     protected Button register;
@@ -65,6 +78,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected final String MyPREFERENCES = "MyPrefs";
 
 
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * the user will be provided with a list of all the available requests in the same city and with the same blood type
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,25 +225,35 @@ public class RegisterActivity extends AppCompatActivity {
                             if(dataSnapshot.hasChild("ListOfAllUsers" + "/" + phoneNumber.getText().toString())){
                                 Toast.makeText(RegisterActivity.this, "ACCOUNT ALREADY EXISTS", Toast.LENGTH_SHORT).show();
                             } else {
-                                RegisterActivity.user = new User(EditTextName.getText().toString(),
-                                        CitySpinner.getSelectedItem().toString(), phoneNumber.getText().toString(),
-                                        GenderSpinner.getSelectedItem().toString(), bloodTypeSpinner.getSelectedItem().toString()/*, ePass.getText().toString()*/);
+
+                                if(number.length()!=8){
+                                    Toast.makeText(RegisterActivity.this, "INVALID PHONE NUMBER", Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    RegisterActivity.user = new User(EditTextName.getText().toString(),
+                                            CitySpinner.getSelectedItem().toString(), phoneNumber.getText().toString(),
+                                            GenderSpinner.getSelectedItem().toString(), bloodTypeSpinner.getSelectedItem().toString()/*, ePass.getText().toString()*/);
 
 
-                                mDatabase.child(user.getObjectType() + "/" + user.getCity() +
-                                        "/" + user.getBloodType() +
-                                        "/" + user.getKey()
-                                ).setValue(user);
+                                    mDatabase.child(user.getObjectType() + "/" + user.getCity() +
+                                            "/" + user.getBloodType() +
+                                            "/" + user.getKey()
+                                    ).setValue(user);
 
-                                mDatabase.child("ListOfAllUsers" + "/" + user.getKey()).setValue(user);
-                                editor.putString("name", RegisterActivity.user.getName());
-                                editor.putString("city", RegisterActivity.user.getCity());
-                                editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
-                                editor.putString("gender",RegisterActivity.user.getGender());
-                                editor.putString("bloodType", RegisterActivity.user.getBloodType());
-                                editor.putString("logged", "true");
-                                editor.commit();
-                                signUP();
+                                    mDatabase.child("ListOfAllUsers" + "/" + user.getKey()).setValue(user);
+                                    editor.putString("name", RegisterActivity.user.getName());
+                                    editor.putString("city", RegisterActivity.user.getCity());
+                                    editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
+                                    editor.putString("gender",RegisterActivity.user.getGender());
+                                    editor.putString("bloodType", RegisterActivity.user.getBloodType());
+                                    editor.putString("logged", "true");
+                                    editor.commit();
+                                    Toast.makeText(RegisterActivity.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
+
+                                    signUP();
+                                }
+
+
 
 
                                 // Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
@@ -249,6 +279,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     * @param ev movement that the user does on the screen
+     * @return calls the super class
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
@@ -263,6 +298,11 @@ public class RegisterActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    /**
+     * method that authenticates the user by communicating with heroku and twilio
+     * a text message is expected carrying the verification code
+     * this code should be typed in the next activity: Register2
+     */
     public void signUP() {
         //Log.d("RegisterActivity", "****CALLED SIGNUP******");
         Thread thread = new Thread(new Runnable() {
@@ -302,6 +342,11 @@ public class RegisterActivity extends AppCompatActivity {
         return response.body().string();
     }
 
+    /**
+     *
+     * @param n phone number
+     * @return phone number concatenated with +961
+     */
     public String makeReal(String n) {
         if(n.startsWith("0")) {
             return "+961" + n.substring(1);
@@ -310,6 +355,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param s name of the city
+     * @return name with city without meaningless characters
+     */
     public static String makerealCity(String s){
         String temp = "";
         for(int i = 0 ; i < s.length(); i++){

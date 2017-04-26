@@ -1,5 +1,16 @@
 package jram_mack.oneg;
 
+/**
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ * this class allows the user to see the the request he/she accepted with the ability of calling the recipient pof the corresponding request
+ *
+ */
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,8 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class Accepted extends AppCompatActivity {
     private RecyclerView recyclerView2;
     private RecyclerView.Adapter adapter2;
@@ -41,6 +50,13 @@ public class Accepted extends AppCompatActivity {
     static SharedPreferences sharedpreferences;
     protected final String MyPREFERENCES = "MyPrefs";
 
+    /**
+     *
+     * @param savedInstanceState : this parameter contains a String to String key-value data. This value is passed into the onCreate method every time the user reaches this activity.
+     *
+     * this onCreate method provides the user with the cards so the user can see the request he/she has accepted with ability of calling the corresponding recipient
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,24 +258,36 @@ public class Accepted extends AppCompatActivity {
 
 
 
-
+    /**
+     * This method defines the action of the android back button
+     * When pressed, the android back button takes the user from the Request page to the Home page.
+     */
     @Override
     public void onBackPressed(){
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
     }
 
+    /**
+     *
+     * @param menu menu in the action bar containing the sign out and delete account buttons
+     * @return true(hardcoded on purpose)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
-
+    /**
+     *
+     * @param item item selected in the toolbar menu
+     * @return true (hardcoded on purpose)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
         final Intent mario = new Intent(Accepted.this, MainActivity.class);
         switch(item.getItemId()){
             case R.id.mnu_item_signout:
@@ -287,6 +315,14 @@ public class Accepted extends AppCompatActivity {
                         RegisterActivity.user = null;
                         mDatabase = FirebaseDatabase.getInstance().getReference("ListOfAllUsers");
                         mDatabase.child(phone).removeValue();
+                        MainActivity.sharedpreferences.edit().clear();
+
+                        MainActivity.sharedpreferences.edit().commit();
+
+                        MainActivity.editor.clear();
+
+                        MainActivity.editor.commit();
+                        Intent mario = new Intent(Accepted.this, MainActivity.class);
 
                         startActivity(mario);
                         dialogInterface.cancel();
