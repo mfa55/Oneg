@@ -1,18 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- *
- * Home activity where the user can interact with other users.
- * the user can accept or reject any request
- * the user has the ability of calling the the recipient
- *
- *
- */
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,7 +35,19 @@ import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
 
-
+/**
+ *
+ * Home activity where the user can interact with other users. the user can accept or reject any request the user has the ability of calling the the recipient
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ *
+ *
+ */
 public class HomeActivity extends AppCompatActivity {
 
     public static DatabaseReference mDatabase;
@@ -173,13 +172,19 @@ public class HomeActivity extends AppCompatActivity {
 
                             if (dataSnapshot.child("status").getValue().toString().equals("true")) {
                                 if (dataSnapshot.hasChild(RegisterActivity.user.getPhoneNumber())) {
-                                    if (!dataSnapshot.child(RegisterActivity.user.getPhoneNumber()).getValue().equals("Accepted")) {
+
+                                    if(dataSnapshot.child(RegisterActivity.user.getPhoneNumber()).getValue().equals("Removed")){
+
+                                    }
+                                    else if (dataSnapshot.child(RegisterActivity.user.getPhoneNumber()).getValue().equals("Accepted")) {
+                                        listOfAcceptedRequests.add(r);
+
+                                    }
+                                    else {
                                         value = dataSnapshot.child("hospital").getValue().toString();
                                         re = new RecyclerItem(value, r.toString()); //hone u add the values
                                         listOfHospitals.add(re);
                                         listOfRequestsHome.add(r);
-                                    } else {
-                                        listOfAcceptedRequests.add(r);
 
                                     }
                                 } else {

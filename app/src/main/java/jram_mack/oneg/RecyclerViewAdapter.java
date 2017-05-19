@@ -1,15 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- *
- * Card view for the Accepted List of Requests
- *
- */
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +16,18 @@ import java.util.List;
 import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
-
+/**
+ *
+ * Card view for the Accepted List of Requests
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ *
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<RecyclerItem> listItems;
     private Context mContext;

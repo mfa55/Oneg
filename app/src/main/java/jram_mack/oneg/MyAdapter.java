@@ -1,14 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * card view for the home activity, where the user can accept or reject any request and call the recipient as well
- *
- */
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +20,18 @@ import static jram_mack.oneg.Accepted.acceptedRequestsListItem;
 import static jram_mack.oneg.Accepted.listOfAcceptedRequests;
 
 
-
+/**
+ *
+ *
+ * card view for the home activity, where the user can accept or reject any request and call the recipient as well
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
     private List<RecyclerItem> listItems;
     private Context mContext;

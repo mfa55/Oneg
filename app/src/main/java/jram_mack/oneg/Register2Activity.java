@@ -1,16 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * This is the second part of the registration procedure
- * The user is expected to receive a text message and enter the verification code.
- * A successful registration will redirect the user to the welcome screen
- *
- */
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-
+/**
+ *
+ * This is the second part of the registration procedure. The user is expected to receive a text message and enter the verification code. A successful registration will redirect the user to the welcome screen
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class Register2Activity extends AppCompatActivity {
     public EditText mytoken;
     public Button verify;

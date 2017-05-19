@@ -1,18 +1,19 @@
 package jram_mack.oneg;
 
+
 /**
+ *
+ * This is a User java object. When a user tries to login or sign in, an instance of this class is created and the user's information are stored in this object
  * @author  JRAM-MACK
  * @author  CMPS253
  * @since 2/11/2017
  *
  * @version 1.0
  *
- * This is a User java object
- * When a user tries to login or sign in, an instance of this class is created and the user's information are stored in this object
+ *
  *
  *
  */
-
 public class User {
 
     private String name;

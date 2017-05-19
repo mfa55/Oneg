@@ -1,16 +1,7 @@
 package jram_mack.oneg;
 
 
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * this class defines the shape of the card view in MyRequestsActivity
- *
- */
+
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +18,18 @@ import java.util.List;
 
 import static jram_mack.oneg.MyRequestsActivity.listOfMyRequests;
 
-
+/**
+ *
+ * this class defines the shape of the card view in MyRequestsActivity
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ *
+ */
 public class SampleAdpater extends RecyclerView.Adapter<SampleAdpater.ViewHolder>  {
     private List<RecyclerItem> listItems;
     private Context mContext;

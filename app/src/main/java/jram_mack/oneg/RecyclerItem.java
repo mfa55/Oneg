@@ -1,7 +1,11 @@
 package jram_mack.oneg;
 
 
+
+
 /**
+ *
+ * Java Object containing the card view's content
  * @author  JRAM-MACK
  * @author  CMPS253
  * @since 2/11/2017
@@ -9,8 +13,6 @@ package jram_mack.oneg;
  * @version 1.0
  *
  */
-
-
 public class RecyclerItem {
     private String Title;
     private String Description;

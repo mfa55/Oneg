@@ -1,15 +1,6 @@
 package jram_mack.oneg;
 
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * this class allows the user to see the the request he/she accepted with the ability of calling the recipient pof the corresponding request
- *
- */
+
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ *  this class allows the user to see the the request he/she accepted with the ability of calling the recipient pof the corresponding request
 
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class Accepted extends AppCompatActivity {
     private RecyclerView recyclerView2;
     private RecyclerView.Adapter adapter2;

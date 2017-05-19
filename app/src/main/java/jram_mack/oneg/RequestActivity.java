@@ -1,16 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * This is the first part of the request procedure
- * The user is required to enter a name, choose a city and a blood type then enter a phone number
- * A successful completion of these information will redirect the user to the next activity Request2
- *
- */
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +24,17 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-
+/**
+ *
+ * This is the first part of the request procedure. The user is required to enter a name, choose a city and a blood type then enter a phone number. A successful completion of these information will redirect the user to the next activity Request2
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class RequestActivity extends AppCompatActivity {
 
     protected DatabaseReference mDatabase;

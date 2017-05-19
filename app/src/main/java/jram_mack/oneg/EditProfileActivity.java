@@ -1,17 +1,18 @@
 package jram_mack.oneg;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 /**
+ *
+ * this class allows the user to change his profile information
  * @author  JRAM-MACK
  * @author  CMPS253
  * @since 2/11/2017
  *
  * @version 1.0
  *
- * this class allows the user to change his profile information
  *
  */
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 public class EditProfileActivity extends AppCompatActivity {
 
     /**

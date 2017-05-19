@@ -1,16 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * This is the first part of the registration procedure
- * The user is required to enter his name, choose a city , a gender and a blood type and enter a phone number
- * A successful completion of these information will redirect the user to the authentication page Register2
- *
- */
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +35,17 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-
+/**
+ *
+ * This is the first part of the registration procedure. The user is required to enter his name, choose a city , a gender and a blood type and enter a phone number. A successful completion of these information will redirect the user to the authentication page Register2
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     protected Button register;
@@ -230,27 +229,31 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "INVALID PHONE NUMBER", Toast.LENGTH_LONG).show();
 
                                 } else {
-                                    RegisterActivity.user = new User(EditTextName.getText().toString(),
-                                            CitySpinner.getSelectedItem().toString(), phoneNumber.getText().toString(),
-                                            GenderSpinner.getSelectedItem().toString(), bloodTypeSpinner.getSelectedItem().toString()/*, ePass.getText().toString()*/);
+                                    if(EditTextName.getText().toString().isEmpty()){
+                                        Toast.makeText(RegisterActivity.this, "PLEASE ENTER YOUR FULL NAME", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        RegisterActivity.user = new User(EditTextName.getText().toString(),
+                                                CitySpinner.getSelectedItem().toString(), phoneNumber.getText().toString(),
+                                                GenderSpinner.getSelectedItem().toString(), bloodTypeSpinner.getSelectedItem().toString()/*, ePass.getText().toString()*/);
 
 
-                                    mDatabase.child(user.getObjectType() + "/" + user.getCity() +
-                                            "/" + user.getBloodType() +
-                                            "/" + user.getKey()
-                                    ).setValue(user);
+                                        mDatabase.child(user.getObjectType() + "/" + user.getCity() +
+                                                "/" + user.getBloodType() +
+                                                "/" + user.getKey()
+                                        ).setValue(user);
 
-                                    mDatabase.child("ListOfAllUsers" + "/" + user.getKey()).setValue(user);
-                                    editor.putString("name", RegisterActivity.user.getName());
-                                    editor.putString("city", RegisterActivity.user.getCity());
-                                    editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
-                                    editor.putString("gender",RegisterActivity.user.getGender());
-                                    editor.putString("bloodType", RegisterActivity.user.getBloodType());
-                                    editor.putString("logged", "true");
-                                    editor.commit();
-                                    Toast.makeText(RegisterActivity.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
+                                        mDatabase.child("ListOfAllUsers" + "/" + user.getKey()).setValue(user);
+                                        editor.putString("name", RegisterActivity.user.getName());
+                                        editor.putString("city", RegisterActivity.user.getCity());
+                                        editor.putString("phoneNumber", RegisterActivity.user.getPhoneNumber());
+                                        editor.putString("gender", RegisterActivity.user.getGender());
+                                        editor.putString("bloodType", RegisterActivity.user.getBloodType());
+                                        editor.putString("logged", "true");
+                                        editor.commit();
+                                        Toast.makeText(RegisterActivity.this, "PLEASE WAIT", Toast.LENGTH_LONG).show();
 
-                                    signUP();
+                                        signUP();
+                                    }
                                 }
 
 

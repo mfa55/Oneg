@@ -1,16 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * This is the second part of the request procedure
- * The user is required to choose a hospital according to the city chosen in the previous activity (RequestActivity)
- * and the number of units required for the blood donation.
- *
- */
+
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +32,18 @@ import java.util.StringTokenizer;
 import static jram_mack.oneg.MyRequestsActivity.listOfMyRequests;
 import static jram_mack.oneg.MyRequestsActivity.listItems2;
 
-
+/**
+ *
+ * This is the second part of the request procedure. The user is required to choose a hospital according to the city chosen in the previous activity (RequestActivity). and the number of units required for the blood donation.
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ *
+ */
 public class Request2Activity extends AppCompatActivity {
 
     private Request request;

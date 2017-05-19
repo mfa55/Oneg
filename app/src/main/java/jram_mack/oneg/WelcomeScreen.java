@@ -1,16 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * This is a welcome screen that appears to the user when the registration procedure is done
- * This page guides the user with the instructions on how to use the application
- * Only one button exists, a continue button that redirect the user to the home page.
- *
- */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +7,17 @@ import android.view.View;
 import android.widget.Button;
 
 
-
+/**
+ *
+ * This is a welcome screen that appears to the user when the registration procedure is done. This page guides the user with the instructions on how to use the application. Only one button exists, a continue button that redirect the user to the home page.
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class WelcomeScreen extends AppCompatActivity {
     private Button button2;
 

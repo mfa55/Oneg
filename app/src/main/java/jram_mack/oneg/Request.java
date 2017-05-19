@@ -1,22 +1,22 @@
 package jram_mack.oneg;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
+ *
+ * This is a Request java object. When a user submits a request, an instance of this class is created and the request's information are stored in this object
  * @author  JRAM-MACK
  * @author  CMPS253
  * @since 2/11/2017
  *
  * @version 1.0
  *
- * This is a Request java object
- * When a user submits a request, an instance of this class is created and the request's information are stored in this object
  *
  *
  */
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-
 public class Request {
 
     protected String bloodType;

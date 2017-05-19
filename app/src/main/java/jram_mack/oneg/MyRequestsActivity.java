@@ -1,15 +1,5 @@
 package jram_mack.oneg;
-/**
- * @author  JRAM-MACK
- * @author  CMPS253
- * @since 2/11/2017
- *
- * @version 1.0
- *
- * MyRequests activity where the user can interact with the users whom he/she has accepted their requests.
- * the user has the ability of calling the the recipient
- *
- */
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +25,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * MyRequests activity where the user can interact with the users whom he/she has accepted their requests. The user has the ability of calling the the recipient
+ * @author  JRAM-MACK
+ * @author  CMPS253
+ * @since 2/11/2017
+ *
+ * @version 1.0
+ *
+ *
+ */
 public class MyRequestsActivity extends AppCompatActivity {
     private ListView myList;
 
